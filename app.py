@@ -4,18 +4,19 @@ import numpy as np
 import plotly.graph_objects as go
 from scipy.signal import find_peaks, butter, lfilter
 
-# --- 1. CONFIGURATION & STYLING ---
+# --- 1. SETTINGS & STYLING ---
 st.set_page_config(page_title="GaitPro AI | Clinical Analysis", layout="wide")
 
-# ปรับปรุง UI ให้ดูสะอาดตา (Native Streamlit)
-st.markdown("""
-    <style>
-    .reportview-container .main .block-container { padding-top: 2rem; }
+# แก้ไข: แยก CSS ออกมาเป็นตัวแปรเดียวเพื่อลดภาระการ Parse ของ Python 3.14
+style_css = """
+<style>
     .stMetric { background-color: #ffffff; padding: 15px; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border: 1px solid #f0f2f6; }
-    </style>
-    """, unsafe_allow_value=True)
+    [data-testid="stMetricDelta"] svg { display: none; } /* ซ่อนลูกศร default เพื่อความสะอาด */
+</style>
+"""
+st.markdown(style_css, unsafe_allow_value=True)
 
-# ฟังก์ชันกรองสัญญาณ Noise (Low-pass Filter) [Ref: รายละเอียด.pdf p.2]
+# ฟังก์ชันกรองสัญญาณ Noise [Ref: รายละเอียด.pdf p.2]
 def butter_lowpass_filter(data, cutoff=20, fs=100, order=4):
     nyq = 0.5 * fs
     normal_cutoff = cutoff / nyq
@@ -25,13 +26,15 @@ def butter_lowpass_filter(data, cutoff=20, fs=100, order=4):
 # --- 2. SIDEBAR ---
 with st.sidebar:
     st.title("🩺 GaitPro AI")
-    st.subheader("Clinical Gait Analysis")
     st.write("---")
-    uploaded_file = st.file_uploader("📂 อัปโหลดไฟล์ข้อมูล (CSV)", type="csv", help="ไฟล์ต้องมีคอลัมน์ timestamp, ax, ay, az")
+    uploaded_file = st.file_uploader("📂 อัปโหลดไฟล์ CSV", type="csv")
     st.write("---")
-    patient_weight = st.number_input("น้ำหนักตัวผู้ป่วย (kg)", value=70.0, step=0.1)
-    step_height = st.number_input("ระยะยกตัวแนวดิ่ง (m)", value=0.45, help="ระยะจากพื้นถึงเอวขณะยืน ลบด้วยขณะนั่ง")
-    st.info("💡 ระบบอ้างอิงเกณฑ์มาตรฐานตาม FallSense Prototype (L3-L5 Placement)")
+    patient_weight = st.number_input("น้ำหนักตัว (kg)", value=70.0)
+    step_height = st.number_input("ระยะยกตัวแนวดิ่ง (m)", value=0.45)
+    st.info("อ้างอิงเกณฑ์ FallSense Prototype")
+
+# สร้าง Tabs
+tab_analysis, tab_manual = st.tabs(["📊 Analysis Dashboard", "📖 User Manual & References"])
 
 # สร้าง Tabs
 tab_analysis, tab_manual = st.tabs(["📊 Analysis Dashboard", "📖 User Manual & References"])
