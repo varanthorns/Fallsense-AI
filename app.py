@@ -5,7 +5,7 @@ import plotly.graph_objects as go
 from scipy.signal import find_peaks, butter, lfilter
 
 # --- 1. SETTINGS ---
-st.set_page_config(page_title="GaitPro AI | Clinical Analysis", layout="wide")
+st.set_page_config(page_title="Fallsense AI | Clinical Analysis", layout="wide")
 
 def butter_lowpass_filter(data, cutoff=20, fs=100, order=4):
     nyq = 0.5 * fs
@@ -15,7 +15,7 @@ def butter_lowpass_filter(data, cutoff=20, fs=100, order=4):
 
 # --- 2. SIDEBAR ---
 with st.sidebar:
-    st.title("🩺 GaitPro AI")
+    st.title("🩺 Fallsense AI")
     st.write("---")
     uploaded_file = st.file_uploader("📂 อัปโหลดไฟล์ข้อมูล (CSV)", type="csv")
     st.write("---")
@@ -26,11 +26,11 @@ tab_analysis, tab_manual = st.tabs(["📊 Analysis Dashboard", "📖 User Manual
 
 # --- 3. TAB: USER MANUAL & REFERENCES ---
 with tab_manual:
-    st.header("📖 คู่มือการใช้งานระบบ GaitPro AI")
+    st.header("📖 คู่มือการใช้งานระบบ Fallsense AI")
     
     # --- กล่องข้อความต้อนรับ ---
     st.info("""
-    **GaitPro AI** คือเครื่องมือวิเคราะห์การเดินและการทรงตัวเชิงคลินิก 
+    **Fallsense AI** คือเครื่องมือวิเคราะห์การเดินและการทรงตัวเชิงคลินิก 
     ออกแบบมาเพื่อช่วยคัดกรองความเสี่ยงในการล้มของผู้สูงอายุ โดยอ้างอิงเกณฑ์มาตรฐานจาก **Prototype FallSense**
     """)
 
