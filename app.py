@@ -22,7 +22,7 @@ with st.sidebar:
     st.write("---")
     patient_weight = st.number_input("น้ำหนักตัว (kg)", value=70.0)
     step_height = st.number_input("ระยะยกตัวแนวดิ่ง (m)", value=0.45)
-    st.info("อ้างอิงเกณฑ์วัดจาก FallSense Prototype")
+
 
 # สร้าง Tabs สำหรับการใช้งาน
 tab_analysis, tab_manual = st.tabs(["📊 Analysis Dashboard", "📖 User Manual & References"])
