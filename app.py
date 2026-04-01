@@ -75,11 +75,19 @@ with tab_manual:
     """)
 
     # --- ส่วนที่ 4: เครดิตและเอกสารอ้างอิง ---
-    with st.expander("📄 ดูเอกสารอ้างอิงเพิ่มเติม"):
-        st.write("""
-        * **หน้า 8:** เกณฑ์การวัด Stride Variability และความหมายของ RMS Sway
-        * **หน้า 9:** สูตรการคำนวณ Sit-to-Stand Power และเกณฑ์ประเมินภาวะ Sarcopenia
-        * **Placement:** การติดเซนเซอร์ระดับ Center of Mass (COM) อ้างอิงหน้า 2
+    with st.expander("📄 รายการเอกสารอ้างอิง (References - APA 7th)"):
+        st.markdown("""
+        **1. ด้านความแปรปรวนของการเดิน (Stride Variability):**
+        * Hausdorff, J. M. (2005). Gait variability: Methods, modeling and meaning. *Journal of NeuroEngineering and Rehabilitation, 2*(1), 1-9. https://doi.org/10.1186/1743-0003-2-19
+        
+        **2. ด้านการทรงตัวและการเหวี่ยงของลำตัว (RMS Trunk Sway):**
+        * Moe-Nilssen, R., & Helbostad, J. L. (2004). Estimation of gait cycle characteristics by trunk accelerometry. *Journal of Biomechanics, 37*(1), 121-126. https://doi.org/10.1016/S0021-9290(03)00233-1
+        
+        **3. ด้านกำลังกล้ามเนื้อขาและการลุก-นั่ง (STS Power):**
+        * Alcazar, J., Losa-Reyna, J., Rodriguez-Lopez, C., Alfaro-Acha, A., Rodriguez-Mañas, L., Ara, I., & Garcia-Garcia, F. J. (2018). The sit-to-stand muscle power test: An easy, inexpensive and portable tool to assess muscle power in older adults. *Experimental Gerontology, 112*, 38-43. https://doi.org/10.1016/j.exger.2018.08.006
+        
+        **4. ด้านเกณฑ์การประเมินความเสี่ยงล้ม (Fall Risk Thresholds):**
+        * Lord, S. R., Sherrington, C., Menz, H. B., & Close, J. C. (2007). *Falls in older people: Risk factors and strategies for prevention* (2nd ed.). Cambridge University Press.
         """)
 
 # --- 4. TAB: ANALYSIS DASHBOARD ---
