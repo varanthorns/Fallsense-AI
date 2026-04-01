@@ -70,6 +70,15 @@ with tab_analysis:
 
     # --- PROCESSING ---
     df = pd.read_csv(uploaded_file)
+    # --- เพิ่มส่วนนี้เพื่อล้างชื่อคอลัมน์ (Clean Column Names) ---
+    df.columns = df.columns.str.strip() # ลบช่องว่างหน้าและหลังชื่อ (เช่น ' ax ' -> 'ax')
+    df.columns = df.columns.str.lower() # แปลงเป็นตัวพิมพ์เล็กทั้งหมด (เช่น 'AX' -> 'ax')
+    # -------------------------------------------------------
+
+        fs = 100 
+        
+        # ตอนนี้บรรทัดนี้จะทำงานได้ปกติ ไม่ติด KeyError แล้วครับ
+        df['mag'] = np.sqrt(df['ax']**2 + df['ay']**2 + df['az']**2)
     fs = 100 
     
     # คำนวณ Magnitude และ Filter
