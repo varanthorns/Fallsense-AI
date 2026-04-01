@@ -57,9 +57,9 @@ with tab_manual:
 
     st.markdown("""
     **คำอธิบายเพิ่มเติม:**
-    * **Stride Variability (CV%):** วัดความสม่ำเสมอของจังหวะก้าว [Ref: Prototype Fallsense p.8]
-    * **RMS Trunk Sway:** วัดความเสถียรของลำตัวขณะเคลื่อนที่ [Ref: Prototype Fallsense p.8]
-    * **STS Power:** วัดกำลังกล้ามเนื้อขาเพื่อประเมินภาวะ Sarcopenia [Ref: Prototype Fallsense p.9]
+    * **Stride Variability (CV%):** วัดความสม่ำเสมอของจังหวะก้าว 
+    * **RMS Trunk Sway:** วัดความเสถียรของลำตัวขณะเคลื่อนที่ 
+    * **STS Power:** วัดกำลังกล้ามเนื้อขาเพื่อประเมินภาวะ Sarcopenia 
     """)
 
 # --- 4. TAB: ANALYSIS DASHBOARD ---
