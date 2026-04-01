@@ -75,7 +75,7 @@ with tab_manual:
     """)
 
     # --- ส่วนที่ 4: เครดิตและเอกสารอ้างอิง ---
-    with st.expander("📄 รายการเอกสารอ้างอิง (References - APA 7th)"):
+    with st.expander("📄 รายการเอกสารอ้างอิง (References)"):
         st.markdown("""
         **1. ด้านความแปรปรวนของการเดิน (Stride Variability):**
         * Hausdorff, J. M. (2005). Gait variability: Methods, modeling and meaning. *Journal of NeuroEngineering and Rehabilitation, 2*(1), 1-9. https://doi.org/10.1186/1743-0003-2-19
