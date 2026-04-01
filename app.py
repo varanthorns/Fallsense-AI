@@ -17,7 +17,6 @@ st.markdown("### 🏃 GaitPro AI Professional System")
 
 # --- 2. SIDEBAR NAVIGATION ---
 with st.sidebar:
-    st.image("https://cdn-icons-png.flaticon.com/512/3063/3063200.png", width=100)
     st.header("Medical Control")
     mode = st.selectbox("Navigation", ["Executive Dashboard", "Usage Guide", "System Status"])
     st.divider()
