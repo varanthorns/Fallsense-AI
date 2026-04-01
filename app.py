@@ -73,6 +73,9 @@ with tab_analysis:
     # --- เพิ่มส่วนนี้เพื่อล้างชื่อคอลัมน์ (Clean Column Names) ---
     df.columns = df.columns.str.strip() # ลบช่องว่างหน้าและหลังชื่อ (เช่น ' ax ' -> 'ax')
     df.columns = df.columns.str.lower() # แปลงเป็นตัวพิมพ์เล็กทั้งหมด (เช่น 'AX' -> 'ax')
+    # --- 💡 เพิ่ม 2 บรรทัดนี้เพื่อแก้ปัญหา KeyError โดยเฉพาะ ---
+    df.columns = df.columns.str.strip() # ลบช่องว่างหน้า-หลังชื่อคอลัมน์ทั้งหมด
+    df.columns = df.columns.str.lower() # แปลงเป็นตัวพิมพ์เล็ก (ป้องกันกรณีใน CSV เป็น 'AX')
     fs = 100 
     # -------------------------------------------------------
         
