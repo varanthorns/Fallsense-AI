@@ -77,7 +77,7 @@ with tab_analysis:
     # -------------------------------------------------------
         
         # ตอนนี้บรรทัดนี้จะทำงานได้ปกติ ไม่ติด KeyError แล้วครับ
-        df['mag'] = np.sqrt(df['ax']**2 + df['ay']**2 + df['az']**2)
+    df['mag'] = np.sqrt(df['ax']**2 + df['ay']**2 + df['az']**2)
     fs = 100 
     
     # คำนวณ Magnitude และ Filter
