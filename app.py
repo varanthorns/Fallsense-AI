@@ -156,6 +156,86 @@ with tab_analysis:
         fig.add_trace(go.Scatter(x=df['timestamp'], y=df['mag_f'], name="Acceleration (Mag)"))
         fig.add_trace(go.Scatter(x=df['timestamp'].iloc[peaks], y=df['mag_f'].iloc[peaks], mode='markers', name="Detected Steps", marker=dict(color="red")))
         st.plotly_chart(fig, use_container_width=True)
+        # =========================================================
+        # 5. AI FALL RISK SCORING & INTERPRETATION
+        # =========================================================
+        st.divider()
+        st.header("🧠 Fallsense AI Intelligence Prediction")
+
+        # คำนวณคะแนนความเสี่ยง (Composite Fall Risk Score)
+        # ถ่วงน้ำหนัก: CV (40%), Sway (30%), Power (30%)
+        cv_score = min(cv * 8, 40)             # เกณฑ์เสี่ยงที่ >5% จะได้คะแนนเต็มในส่วนนี้
+        sway_score = min(rms_sway * 12, 30)    # เกณฑ์เสี่ยงที่ >2.5 จะได้คะแนนเต็มในส่วนนี้
+        power_penalty = max(0, (300 - sts_power) / 10) # บทลงโทษถ้าแรงน้อยกว่า 300W
+        
+        total_risk_score = min(100, cv_score + sway_score + power_penalty)
+
+        # การแสดงผลแถบสถานะความเสี่ยง
+        risk_col1, risk_col2 = st.columns([1, 2])
+        with risk_col1:
+            st.metric("Overall Fall Risk Score", f"{total_risk_score:.1f}%")
+        with risk_col2:
+            if total_risk_score < 35:
+                st.success("✅ **ความเสี่ยงต่ำ (Low Risk)**: ร่างกายมีความเสถียรและกำลังกล้ามเนื้ออยู่ในเกณฑ์ดี")
+            elif total_risk_score < 65:
+                st.warning("⚠️ **ความเสี่ยงปานกลาง (Moderate Risk)**: เริ่มพบความไม่สม่ำเสมอในการเดิน ควรเฝ้าระวัง")
+            else:
+                st.error("🚨 **ความเสี่ยงสูง (High Risk)**: พบความผิดปกติชัดเจนในหลายดัชนี แนะนำให้ปรึกษาแพทย์")
+
+        # =========================================================
+        # 6. CARE PLAN & MANAGEMENT
+        # =========================================================
+        st.divider()
+        st.subheader("🛠 แนวทางการดูแลและการจัดการ (Personalized Care Plan)")
+        
+        plan_c1, plan_c2 = st.columns(2)
+        with plan_c1:
+            st.markdown("**🎯 วิเคราะห์ความหมาย:**")
+            if cv > 5:
+                st.write("- **Gait:** พบการเดินที่ไม่สม่ำเสมอ (Gait Variability) สูง ซึ่งสัมพันธ์กับความเสี่ยงการล้มในผู้สูงอายุ (Hausdorff, 2005)")
+            if sts_power < 200:
+                st.write("- **Strength:** กำลังกล้ามเนื้อขาต่ำกว่าเกณฑ์ อาจเสี่ยงภาวะกล้ามเนื้อพร่อง (Alcazar et al., 2018)")
+            if 1.5 > rms_sway or rms_sway > 2.5:
+                st.write("- **Balance:** การทรงตัวไม่นิ่ง มีการแกว่งของลำตัวมากผิดปกติ (Moe-Nilssen, 2004)")
+
+        with plan_c2:
+            st.markdown("**📋 คำแนะนำ:**")
+            if total_risk_score > 40:
+                st.write("1. **ฝึกการทรงตัว:** แนะนำท่าเดินต่อเท้า (Tandem Walk) หรือยืนขาเดียว")
+                st.write("2. **เพิ่มแรงขา:** ฝึกลุก-นั่ง (Squat) อย่างสม่ำเสมอวันละ 10-15 ครั้ง")
+                st.write("3. **สิ่งแวดล้อม:** ติดตั้งราวจับและเพิ่มแสงสว่างในจุดเสี่ยงของบ้าน")
+            else:
+                st.write("1. **รักษามาตรฐาน:** ออกกำลังกายแบบแอโรบิก (เดินเร็ว) ต่อเนื่อง")
+                st.write("2. **ติดตามผล:** ตรวจสอบความเสี่ยงด้วย Fallsense AI ทุกๆ 1 เดือน")
+
+        # =========================================================
+        # 7. EXPORT & RAW DATA
+        # =========================================================
+        st.divider()
+        
+        # ปุ่ม Download Report
+        report_df = pd.DataFrame({
+            "Metric": ["Gait CV", "RMS Sway", "STS Power", "Risk Score"],
+            "Value": [f"{cv:.2f}%", f"{rms_sway:.2f}", f"{sts_power:.2f}W", f"{total_risk_score:.2f}%"]
+        })
+        st.download_button(
+            label="📥 ดาวน์โหลดรายงานสรุปผล (CSV)",
+            data=report_df.to_csv(index=False).encode('utf-8-sig'),
+            file_name=f"Fallsense_AI_Report.csv",
+            mime="text/csv"
+        )
+
+        # รายละเอียดสัญญาณดิบ (เพื่อความโปร)
+        with st.expander("🔍 ตรวจสอบสัญญาณเซนเซอร์ดิบ (Raw Data Quality)"):
+            raw_fig = go.Figure()
+            raw_fig.add_trace(go.Scatter(x=df['timestamp'], y=df['ax'], name="Side-to-Side (ax)"))
+            raw_fig.add_trace(go.Scatter(x=df['timestamp'], y=df['ay'], name="Front-to-Back (ay)"))
+            raw_fig.add_trace(go.Scatter(x=df['timestamp'], y=df['az'], name="Vertical (az)"))
+            raw_fig.update_layout(title="Tri-axial Raw Acceleration", xaxis_title="Time (s)", yaxis_title="m/s²")
+            st.plotly_chart(raw_fig, use_container_width=True)
+
+    except Exception as e:
+        st.error(f"❌ เกิดข้อผิดพลาดในการประมวลผล: {e}")
 
         # --- 5. DEEP INTERPRETATION (ย้ายเข้ามาอยู่ใน Try เพื่อความปลอดภัย) ---
         st.divider()
